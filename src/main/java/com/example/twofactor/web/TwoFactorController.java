@@ -70,7 +70,7 @@ public class TwoFactorController {
 		}
 		this.accountService.enable2Fa(account.username());
 		Authentication token = UsernamePasswordAuthenticationToken
-				.authenticated(new AccountUserDetails(account.enable2Fa()), null, accountUserDetails.getAuthorities());
+			.authenticated(new AccountUserDetails(account.enable2Fa()), null, accountUserDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(token);
 		return "redirect:/";
 	}
