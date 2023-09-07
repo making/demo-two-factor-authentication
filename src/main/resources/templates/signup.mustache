@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" action="/signup" method="post">
+        <h2 class="form-signin-heading">Sign up</h2>
+        <label for="username" class="sr-only">Username:</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+        <br>
+        <label for="password" class="sr-only">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <!--  This will be automatically made available by Spring Security -->
+        {{#_csrf}}
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        {{/_csrf}}
+        <br>
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Sign up</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" action="/challenge/totp" method="post">
+        <h2 class="form-signin-heading">Two-Factor Authentication</h2>
+        <label for="code" class="sr-only">Authentication Code:</label>
+        <input type="text" id="code" name="code" class="form-control" placeholder="XXXXXX" required pattern="[0-9]+">
+        <br>
+        <p>
+            Please open your authenticator (TOTP) app to access your authentication code.
+        </p>
+        <!--  This will be automatically made available by Spring Security -->
+        {{#_csrf}}
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        {{/_csrf}}
+        <br>
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Verify</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<body class="container">
+{{#account}}
+    <table class="table">
+        <tr>
+            <th>Username</th>
+            <td>{{account.username}}</td>
+        </tr>
+        <tr>
+            <th>2FA Enabled</th>
+            <td>{{account.twoFactorEnabled}}
+                {{^account.twoFactorEnabled}}
+                    <br/>
+                    <a href="/enable-two-factor">Enable 2FA</a>
+                {{/account.twoFactorEnabled}}
+            </td>
+        </tr>
+    </table>
+{{/account}}
+<br/>
+<a href="/logout">Log Out</a>
+</body>
+</html>
