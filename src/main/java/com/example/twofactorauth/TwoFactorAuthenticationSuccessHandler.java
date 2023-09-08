@@ -19,10 +19,10 @@ public class TwoFactorAuthenticationSuccessHandler implements AuthenticationSucc
 
 	private final AuthenticationSuccessHandler secondarySuccessHandler;
 
-	public TwoFactorAuthenticationSuccessHandler(String secondLoginUrl,
+	public TwoFactorAuthenticationSuccessHandler(String secondAuthUrl,
 			AuthenticationSuccessHandler primarySuccessHandler) {
 		this.primarySuccessHandler = primarySuccessHandler;
-		this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler(secondLoginUrl);
+		this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler(secondAuthUrl);
 	}
 
 	@Override
