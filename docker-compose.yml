@@ -1,0 +1,12 @@
+version: "2"
+services:
+  postgresql:
+    image: bitnami/postgresql:15
+    labels:
+      org.springframework.boot.service-connection: postgres
+    ports:
+    - 5432:5432
+    environment:
+      POSTGRES_DB: demo
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
