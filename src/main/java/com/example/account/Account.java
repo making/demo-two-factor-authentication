@@ -13,7 +13,4 @@ public record Account(String username, String password, String twoFactorSecret,
 		return new Account(this.username, this.password, twoFactorSecret, true);
 	}
 
-	public Account disable2Fa() {
-		return new Account(this.username, this.password, this.twoFactorSecret, false);
-	}
 }
