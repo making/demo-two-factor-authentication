@@ -22,12 +22,12 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http,
 			AuthenticationSuccessHandler primarySuccessHandler) throws Exception {
 		return http
-			.authorizeHttpRequests(authorize -> authorize.requestMatchers("/signup", "/error")
-				.permitAll()
-				.requestMatchers("/challenge/totp")
-				.access(new TwoFactorAuthorizationManager())
-				.anyRequest()
-				.authenticated())
+		// @formatter:off
+			.authorizeHttpRequests(authorize -> authorize
+					.requestMatchers("/signup", "/error").permitAll()
+					.requestMatchers("/challenge/totp").access(new TwoFactorAuthorizationManager())
+					.anyRequest().authenticated())
+		// @formatter:on
 			.formLogin(form -> form
 				.successHandler(new TwoFactorAuthenticationSuccessHandler("/challenge/totp", primarySuccessHandler)))
 			.securityContext(securityContext -> securityContext.requireExplicitSave(false))
