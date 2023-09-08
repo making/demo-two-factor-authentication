@@ -1,13 +1,12 @@
-package com.example.twofactor;
+package com.example.twofactorauth.totp;
 
 import java.security.GeneralSecurityException;
 
+import com.example.twofactorauth.TwoFactorAuthenticationCodeVerifier;
 import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
 
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-@Component
 public class TotpAuthenticationCodeVerifier implements TwoFactorAuthenticationCodeVerifier {
 
 	@Override

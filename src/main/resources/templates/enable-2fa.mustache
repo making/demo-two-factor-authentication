@@ -43,7 +43,7 @@
         <div class="alert alert-danger" role="alert">{{message}}</div>
     {{/message}}
 
-    <form action="/enable-two-factor" method="post">
+    <form action="/enable-2fa" method="post">
         <label for="code" class="sr-only">Authentication Code:</label>
         <input type="text" id="code" name="code" class="form-control" placeholder="XXXXXX" required pattern="[0-9]+">
         <!--  This will be automatically made available by Spring Security -->

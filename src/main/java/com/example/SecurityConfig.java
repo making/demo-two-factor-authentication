@@ -1,7 +1,8 @@
 package com.example;
 
-import com.example.twofactor.TwoFactorAuthenticationSuccessHandler;
-import com.example.twofactor.TwoFactorAuthorizationManager;
+import com.example.twofactorauth.TwoFactorAuthenticationSuccessHandler;
+import com.example.twofactorauth.TwoFactorAuthorizationManager;
+import com.example.twofactorauth.totp.TotpAuthenticationCodeVerifier;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +47,11 @@ public class SecurityConfig {
 	@Bean
 	public AuthenticationFailureHandler primaryFailureHandler() {
 		return new SimpleUrlAuthenticationFailureHandler("/login?error");
+	}
+
+	@Bean
+	public TotpAuthenticationCodeVerifier authenticationCodeVerifier() {
+		return new TotpAuthenticationCodeVerifier();
 	}
 
 }

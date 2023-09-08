@@ -1,13 +1,13 @@
-package com.example.twofactor.web;
+package com.example.twofactorauth.web;
 
 import java.io.IOException;
 
 import com.example.account.Account;
 import com.example.account.AccountService;
 import com.example.account.AccountUserDetails;
-import com.example.twofactor.QrCode;
-import com.example.twofactor.TwoFactorAuthentication;
-import com.example.twofactor.TwoFactorAuthenticationCodeVerifier;
+import com.example.twofactorauth.TwoFactorAuthentication;
+import com.example.twofactorauth.TwoFactorAuthenticationCodeVerifier;
+import com.example.twofactorauth.totp.QrCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class TwoFactorController {
+public class TwoFactorAuthController {
 
 	private final AccountService accountService;
 
@@ -38,7 +38,7 @@ public class TwoFactorController {
 
 	private final AuthenticationFailureHandler failureHandler;
 
-	public TwoFactorController(AccountService accountService, TwoFactorAuthenticationCodeVerifier codeVerifier,
+	public TwoFactorAuthController(AccountService accountService, TwoFactorAuthenticationCodeVerifier codeVerifier,
 			QrCode qrCode, AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler) {
 		this.accountService = accountService;
 		this.codeVerifier = codeVerifier;
@@ -47,17 +47,17 @@ public class TwoFactorController {
 		this.failureHandler = failureHandler;
 	}
 
-	@GetMapping(path = "/enable-two-factor")
+	@GetMapping(path = "/enable-2fa")
 	public String requestEnableTwoFactor(@AuthenticationPrincipal AccountUserDetails accountUserDetails, Model model) {
 		Account account = accountUserDetails.getAccount();
 		String otpAuthUrl = "otpauth://totp/%s?secret=%s&digits=6".formatted("Demo: " + account.username(),
 				account.twoFactorSecret());
 		model.addAttribute("qrCode", this.qrCode.dataUrl(otpAuthUrl));
 		model.addAttribute("secret", account.twoFactorSecret());
-		return "enable-two-factor";
+		return "enable-2fa";
 	}
 
-	@PostMapping(path = "/enable-two-factor")
+	@PostMapping(path = "/enable-2fa")
 	public String processEnableTwoFactor(@RequestParam String code,
 			@AuthenticationPrincipal AccountUserDetails accountUserDetails, Model model) {
 		Account account = accountUserDetails.getAccount();

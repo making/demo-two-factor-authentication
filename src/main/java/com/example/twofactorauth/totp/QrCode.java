@@ -1,4 +1,4 @@
-package com.example.twofactor;
+package com.example.twofactorauth.totp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

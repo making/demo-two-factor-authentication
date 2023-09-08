@@ -1,4 +1,4 @@
-package com.example.twofactor;
+package com.example.twofactorauth;
 
 public interface TwoFactorAuthenticationCodeVerifier {
 
