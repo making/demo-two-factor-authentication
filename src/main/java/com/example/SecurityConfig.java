@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.twofactorauth.TwoFactorAuthenticationCodeVerifier;
 import com.example.twofactorauth.TwoFactorAuthenticationSuccessHandler;
 import com.example.twofactorauth.TwoFactorAuthorizationManager;
 import com.example.twofactorauth.totp.TotpAuthenticationCodeVerifier;
@@ -50,7 +51,7 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public TotpAuthenticationCodeVerifier authenticationCodeVerifier() {
+	public TwoFactorAuthenticationCodeVerifier twoFactorAuthenticationCodeVerifier() {
 		return new TotpAuthenticationCodeVerifier();
 	}
 
