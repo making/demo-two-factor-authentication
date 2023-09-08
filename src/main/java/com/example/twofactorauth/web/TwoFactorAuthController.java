@@ -68,9 +68,9 @@ public class TwoFactorAuthController {
 			model.addAttribute("message", "Invalid code");
 			return this.requestEnableTwoFactor(accountUserDetails, model);
 		}
-		this.accountService.enable2Fa(account.username());
-		Authentication token = UsernamePasswordAuthenticationToken
-			.authenticated(new AccountUserDetails(account.enable2Fa()), null, accountUserDetails.getAuthorities());
+		Account enabled = this.accountService.enable2Fa(account);
+		Authentication token = UsernamePasswordAuthenticationToken.authenticated(new AccountUserDetails(enabled), null,
+				accountUserDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(token);
 		return "redirect:/";
 	}

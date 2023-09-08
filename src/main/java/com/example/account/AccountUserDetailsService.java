@@ -2,13 +2,12 @@ package com.example.account;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountUserDetailsService implements UserDetailsService, UserDetailsPasswordService {
+public class AccountUserDetailsService implements UserDetailsService {
 
 	private final AccountService accountService;
 
@@ -25,13 +24,6 @@ public class AccountUserDetailsService implements UserDetailsService, UserDetail
 		catch (EmptyResultDataAccessException e) {
 			throw new UsernameNotFoundException("user not found", e);
 		}
-	}
-
-	@Override
-	public UserDetails updatePassword(UserDetails user, String newPassword) {
-		this.accountService.updatePassword(user.getUsername(), newPassword);
-		final Account account = ((AccountUserDetails) user).getAccount();
-		return new AccountUserDetails(account.withPassword(newPassword));
 	}
 
 }

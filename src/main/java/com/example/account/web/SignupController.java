@@ -34,7 +34,7 @@ public class SignupController {
 	public String signup(SignupForm form) {
 		String encoded = this.passwordEncoder.encode(form.password());
 		String secret = TimeBasedOneTimePasswordUtil.generateBase32Secret();
-		Account account = new Account(form.username(), encoded, secret, false);
+		Account account = Account.without2Fa(form.username(), encoded, secret);
 		this.accountService.insert(account);
 
 		// automatic login after signup

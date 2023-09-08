@@ -28,13 +28,9 @@ public class AccountService {
 	}
 
 	@Transactional
-	public int updatePassword(String username, String newPassword) {
-		return this.jdbcTemplate.update("UPDATE account SET password = ? WHERE username = ?", newPassword, username);
-	}
-
-	@Transactional
-	public int enable2Fa(String username) {
-		return this.jdbcTemplate.update("UPDATE account SET two_factor_enabled = true WHERE username = ?", username);
+	public Account enable2Fa(Account account) {
+		this.jdbcTemplate.update("UPDATE account SET two_factor_enabled = true WHERE username = ?", account.username());
+		return account.enable2Fa();
 	}
 
 }
