@@ -64,7 +64,7 @@ public class TwoFactorAuthController {
 		if (account.twoFactorEnabled()) {
 			return "redirect:/";
 		}
-		if (!this.codeVerifier.verify(account.twoFactorSecret(), code)) {
+		if (!this.codeVerifier.verify(account, code)) {
 			model.addAttribute("message", "Invalid code");
 			return this.requestEnableTwoFactor(accountUserDetails, model);
 		}
@@ -86,7 +86,7 @@ public class TwoFactorAuthController {
 		Authentication primaryAuthentication = authentication.getPrimary();
 		AccountUserDetails accountUserDetails = (AccountUserDetails) primaryAuthentication.getPrincipal();
 		Account account = accountUserDetails.getAccount();
-		if (this.codeVerifier.verify(account.twoFactorSecret(), code)) {
+		if (this.codeVerifier.verify(account, code)) {
 			SecurityContextHolder.getContext().setAuthentication(primaryAuthentication);
 			this.successHandler.onAuthenticationSuccess(request, response, primaryAuthentication);
 		}

@@ -1,7 +1,9 @@
 package com.example.twofactorauth;
 
+import com.example.account.Account;
+
 public interface TwoFactorAuthenticationCodeVerifier {
 
-	boolean verify(String code, String secret);
+	boolean verify(Account account, String code);
 
 }
