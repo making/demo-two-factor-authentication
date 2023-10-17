@@ -1,5 +1,6 @@
 # Two-Factor Authentication Demo with Spring Security
 
+To launch the server locally install Docker and run `./mvnw spring-boot:run`
 
 Visit http://localhost:8080/signup to register for an account.
 
