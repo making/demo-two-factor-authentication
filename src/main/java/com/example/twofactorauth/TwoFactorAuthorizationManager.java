@@ -2,7 +2,7 @@ package com.example.twofactorauth;
 
 import com.example.account.Account;
 import com.example.account.AccountUserDetails;
-import com.example.twofactorauth.totp.TotpFactor;
+import com.example.totp.TotpFactor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

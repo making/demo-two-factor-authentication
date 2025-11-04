@@ -4,7 +4,7 @@ import com.example.account.Account;
 import com.example.account.AccountService;
 import com.example.account.AccountUserDetails;
 import com.example.twofactorauth.TwoFactorAuthenticationCodeVerifier;
-import com.example.twofactorauth.totp.QrCode;
+import com.example.totp.QrCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

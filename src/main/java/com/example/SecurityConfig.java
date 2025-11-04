@@ -2,7 +2,7 @@ package com.example;
 
 import com.example.twofactorauth.TwoFactorAuthenticationCodeVerifier;
 import com.example.twofactorauth.TwoFactorAuthenticationSuccessHandler;
-import com.example.twofactorauth.totp.TotpAuthenticationCodeVerifier;
+import com.example.totp.TotpAuthenticationCodeVerifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
