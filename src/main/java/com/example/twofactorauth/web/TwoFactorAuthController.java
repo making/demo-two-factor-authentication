@@ -1,17 +1,16 @@
 package com.example.twofactorauth.web;
 
-import java.io.IOException;
-
 import com.example.account.Account;
 import com.example.account.AccountService;
 import com.example.account.AccountUserDetails;
-import com.example.twofactorauth.TwoFactorAuthentication;
 import com.example.twofactorauth.TwoFactorAuthenticationCodeVerifier;
 import com.example.twofactorauth.totp.QrCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +24,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static com.example.twofactorauth.TwoFactorAuthorizationManager.twoFaToken;
+
 @Controller
 public class TwoFactorAuthController {
 
@@ -37,6 +38,8 @@ public class TwoFactorAuthController {
 	private final AuthenticationSuccessHandler successHandler;
 
 	private final AuthenticationFailureHandler failureHandler;
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public TwoFactorAuthController(AccountService accountService, TwoFactorAuthenticationCodeVerifier codeVerifier,
 			QrCode qrCode, AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler) {
@@ -69,8 +72,7 @@ public class TwoFactorAuthController {
 			return this.requestEnableTwoFactor(accountUserDetails, model);
 		}
 		Account enabled = this.accountService.enable2Fa(account);
-		Authentication token = UsernamePasswordAuthenticationToken.authenticated(new AccountUserDetails(enabled), null,
-				accountUserDetails.getAuthorities());
+		Authentication token = twoFaToken(new AccountUserDetails(enabled));
 		SecurityContextHolder.getContext().setAuthentication(token);
 		return "redirect:/";
 	}
@@ -81,14 +83,13 @@ public class TwoFactorAuthController {
 	}
 
 	@PostMapping(path = "/challenge/totp")
-	public void processTotp(@RequestParam String code, TwoFactorAuthentication authentication,
-			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Authentication primaryAuthentication = authentication.getPrimary();
-		AccountUserDetails accountUserDetails = (AccountUserDetails) primaryAuthentication.getPrincipal();
+	public void processTotp(@RequestParam String code, HttpServletRequest request, HttpServletResponse response,
+			@AuthenticationPrincipal AccountUserDetails accountUserDetails) throws ServletException, IOException {
 		Account account = accountUserDetails.getAccount();
 		if (this.codeVerifier.verify(account, code)) {
-			SecurityContextHolder.getContext().setAuthentication(primaryAuthentication);
-			this.successHandler.onAuthenticationSuccess(request, response, primaryAuthentication);
+			UsernamePasswordAuthenticationToken mfa = twoFaToken(accountUserDetails);
+			SecurityContextHolder.getContext().setAuthentication(mfa);
+			this.successHandler.onAuthenticationSuccess(request, response, mfa);
 		}
 		else {
 			this.failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException("Invalid code"));

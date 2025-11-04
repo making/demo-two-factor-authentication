@@ -17,4 +17,8 @@ public record Account(String username, String password, String twoFactorSecret,
 		return new Account(this.username, this.password, twoFactorSecret, true);
 	}
 
+	@Override
+	public String toString() {
+		return "Account{" + "username='" + username + '\'' + ", twoFactorEnabled=" + twoFactorEnabled + '}';
+	}
 }

@@ -2,12 +2,11 @@ package com.example;
 
 import com.example.twofactorauth.TwoFactorAuthenticationCodeVerifier;
 import com.example.twofactorauth.TwoFactorAuthenticationSuccessHandler;
-import com.example.twofactorauth.TwoFactorAuthorizationManager;
 import com.example.twofactorauth.totp.TotpAuthenticationCodeVerifier;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.authority.FactorGrantedAuthority;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,18 +15,20 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
+import static com.example.twofactorauth.TwoFactorAuthorizationManager.twoFa;
+
 @Configuration
 public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http,
-			AuthenticationSuccessHandler primarySuccessHandler) throws Exception {
+			AuthenticationSuccessHandler primarySuccessHandler) {
 		return http
 		// @formatter:off
 			.authorizeHttpRequests(authorize -> authorize
 					.requestMatchers("/signup", "/error").permitAll()
-					.requestMatchers("/challenge/totp").access(new TwoFactorAuthorizationManager())
-					.anyRequest().authenticated())
+					.requestMatchers("/challenge/totp").hasAuthority(FactorGrantedAuthority.PASSWORD_AUTHORITY)
+					.anyRequest().access(twoFa()))
 		// @formatter:on
 			.formLogin(form -> form
 				.successHandler(new TwoFactorAuthenticationSuccessHandler("/challenge/totp", primarySuccessHandler)))
